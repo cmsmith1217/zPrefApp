@@ -28,14 +28,27 @@ app.get('/inventory', (req, res) => {
         let queryVal = Object.values(inventorySearch)[0]
 
         if ((queryKey === 'user_id') || (queryKey === 'id') || (queryKey === 'quantity')) {
-            queryVal = parseInt(queryVal)
-        }
+            console.log('need to parse')
+            queryVal = parseInt(queryVal);
+            console.log('parsed', queryVal)
+            console.log(typeof(queryVal))
 
-        knex('item')
+            knex('item')
+            .select('*').where(`${queryKey}`, '=', queryVal)
+            // .select('*').where('item_name', 'ilike', `%${inventorySearch.item_name}%`)
+            .then((inventoryData) => res.status(200).json(inventoryData))
+            .catch((err) => res.status(500).json(err))
+
+
+        } else {
+            console.log('no need to parse')
+            knex('item')
             .select('*').where(`${queryKey}`, 'ilike', `%${queryVal}%`)
             // .select('*').where('item_name', 'ilike', `%${inventorySearch.item_name}%`)
             .then((inventoryData) => res.status(200).json(inventoryData))
             .catch((err) => res.status(500).json(err))
+        }
+
     } else {
         knex('item')
             .select('*')
