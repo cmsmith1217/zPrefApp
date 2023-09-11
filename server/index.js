@@ -81,6 +81,14 @@ app.get('/inventory/:id', (req, res) => {
         .then((itemData) => res.status(200).json(itemData))
 })
 
+app.patch('/inventory/:id', (req, res) => {
+    const itemId = req.params.id;
+    const patchInfo = req.body;
+    knex('item').where('id', '=', itemId)
+        .update(patchInfo)
+        .then((inventoryData) => res.status(202).json(inventoryData))
+})
+
 app.listen(port, () => {
     console.log(`express server listening on port ${port}`)
 })
