@@ -65,6 +65,14 @@ app.post('/inventory', (req, res) => {
         })
 })
 
+app.delete('/inventory', (req, res) => {
+    let idToDelete = parseInt(req.query.id);
+    knex('item')
+        .where('id', idToDelete)
+        .del()
+        .then(() => res.status(202).json(`Item entry with id ${idToDelete} has been deleted`))
+})
+
 app.get('/inventory/:id', (req, res) => {
     itemId = req.params.id;
     console.log(itemId);
