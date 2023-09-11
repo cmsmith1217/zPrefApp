@@ -5,7 +5,6 @@ const cors = require('cors');
 const app = express();
 const port = 3001;
 
-
 app.use(express.json());
 app.use(cors());
 
@@ -35,16 +34,13 @@ app.get('/inventory', (req, res) => {
 
             knex('item')
             .select('*').where(`${queryKey}`, '=', queryVal)
-            // .select('*').where('item_name', 'ilike', `%${inventorySearch.item_name}%`)
             .then((inventoryData) => res.status(200).json(inventoryData))
             .catch((err) => res.status(500).json(err))
-
 
         } else {
             console.log('no need to parse')
             knex('item')
             .select('*').where(`${queryKey}`, 'ilike', `%${queryVal}%`)
-            // .select('*').where('item_name', 'ilike', `%${inventorySearch.item_name}%`)
             .then((inventoryData) => res.status(200).json(inventoryData))
             .catch((err) => res.status(500).json(err))
         }
