@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Button, IconButton } from '@mui/material';
+import { useCookies } from 'react-cookie';
 
 const Login = () => {
     const [firstName, setFirstName] = useState('');
@@ -10,6 +11,12 @@ const Login = () => {
     const [usersSummary, setUsersSummary] = useState([])
     const [usernameLogin, setUsernameLogin] = useState('')
     const [passwordLogin, setPasswordLogin] = useState('')
+    const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token'])
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        usersRefetch();
+    },[])
 
     const usersRefetch = async () => {
         await fetch('http://localhost:3001/users')
@@ -17,13 +24,19 @@ const Login = () => {
             .then((userFetchData) => setUsersSummary(userFetchData))
     }
 
-    const LoginMatchSearch = () => {
+    const LogIntoAccount = async () => {
         let accountMatch = false;
         for(var element of usersSummary) {
             console.log(element)
             if(element.username === usernameLogin) {
                 accountMatch = true;
                 if(element.password === passwordLogin) {
+                    removeSessionCookies('user_id_token');
+                    removeSessionCookies('username_token');
+                    setSessionCookies('user_id_token', element.id, { path: '/'});
+                    setSessionCookies('username_token', element.username, { path: '/'});
+                    navigate('/myinventory');
+                    window.location.reload();
                     alert(`Login successful for ${element.first_name} ${element.last_name}.`)
                     break
                 } else {
@@ -33,10 +46,6 @@ const Login = () => {
             }
         }
         if(accountMatch === false) {alert('No account found for that username')}
-    }
-
-    const LogIntoAccount = async () => {
-        LoginMatchSearch()
     }
 
     const CreateAccount = () => {
@@ -58,14 +67,13 @@ const Login = () => {
 
     return (
         <>
-            <h2>Login Page</h2>
             <div id='loginContainer'>
                 <h3>Login</h3>
-                <div id='loginCreds'>
+                <form id='loginCreds'>
                     <input type='text' value={usernameLogin} onChange={(e) => setUsernameLogin(e.target.value)} placeholder='Username'></input>
                     <input type='text' value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} placeholder='Password'></input>
-                </div>
-                <Button onClick={() => LogIntoAccount()} variant='contained' color='success' style={{gap: '10px', margin: '10px'}}>Login</Button>
+                </form>
+                <Button type='submit' onClick={() => LogIntoAccount()} variant='contained' color='success' style={{gap: '10px', margin: '10px'}}>Login</Button>
             </div>
 
             <div id='createAccountContainer'>
@@ -85,4 +93,3 @@ const Login = () => {
 }
 
 export default Login;
-

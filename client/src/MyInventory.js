@@ -2,10 +2,23 @@ import { React , useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useCookies, CookiesProvider } from 'react-cookie';
 
 const MyInventory = () => {
 
+    const sessionCookies = useCookies(['user_id_token'])
     const[inventoryList, setInventoryList] = useState([])
+    console.log('myInventory cookies', sessionCookies[0])
+    const myInventoryArrayToRender = [];
+
+    const pushRelevantData = () => {
+        for(let element of inventoryList) {
+            if(element.user_id === sessionCookies[0].user_id_token) {
+                myInventoryArrayToRender.push(element)
+            }
+        }
+        console.log('myinventoryToRender:', myInventoryArrayToRender)
+    }
 
     useEffect(() => {
         fetch('http://localhost:3001/inventory')
@@ -35,9 +48,10 @@ const MyInventory = () => {
     if(inventoryList.length > 0) {
         return (
             <>
-                <h2>Inventory Page</h2> 
+                {pushRelevantData()}
+                <h2>My Inventory</h2> 
                 <ul>
-                    {inventoryList.map((item) => (
+                    {myInventoryArrayToRender.map((item) => (
                         <li id={item.id}>
                             <p>Item Name: {item.item_name}</p>
                             <p>Quantity: {item.quantity}</p>
