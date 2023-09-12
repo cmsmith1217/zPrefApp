@@ -63,6 +63,8 @@ app.post('/inventory', (req, res) => {
 
 app.delete('/inventory', (req, res) => {
     let idToDelete = parseInt(req.query.id);
+    console.log(req.query)
+    console.log('idToDelete', idToDelete)
     knex('item')
         .where('id', idToDelete)
         .del()
@@ -83,6 +85,22 @@ app.patch('/inventory/:id', (req, res) => {
     knex('item').where('id', '=', itemId)
         .update(patchInfo)
         .then((inventoryData) => res.status(202).json(inventoryData))
+})
+
+app.get('/users', (req, res) => {
+    knex('user_table')
+        .select('*')
+        .then((userData) => res.status(200).json(userData))
+})
+
+app.post('/users', (req, res) => {
+    const newUser = req.body;
+    knex('user_table')
+        .insert(newUser)
+        .then(() => {
+            res.status(201).json('New user successfully created')
+        })
+
 })
 
 app.listen(port, () => {
