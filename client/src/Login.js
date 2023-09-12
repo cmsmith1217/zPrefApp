@@ -7,6 +7,37 @@ const Login = () => {
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [usersSummary, setUsersSummary] = useState([])
+    const [usernameLogin, setUsernameLogin] = useState('')
+    const [passwordLogin, setPasswordLogin] = useState('')
+
+    const usersRefetch = async () => {
+        await fetch('http://localhost:3001/users')
+            .then((res) => res.json())
+            .then((userFetchData) => setUsersSummary(userFetchData))
+    }
+
+    const LoginMatchSearch = () => {
+        let accountMatch = false;
+        for(var element of usersSummary) {
+            console.log(element)
+            if(element.username === usernameLogin) {
+                accountMatch = true;
+                if(element.password === passwordLogin) {
+                    alert(`Login successful for ${element.first_name} ${element.last_name}.`)
+                    break
+                } else {
+                    alert(`Incorrect password for ${element.first_name} ${element.last_name}.`)
+                    break
+                }
+            }
+        }
+        if(accountMatch === false) {alert('No account found for that username')}
+    }
+
+    const LogIntoAccount = async () => {
+        LoginMatchSearch()
+    }
 
     const CreateAccount = () => {
         fetch('http://localhost:3001/users', {
@@ -22,6 +53,7 @@ const Login = () => {
             })
         })
         alert("Account Created!")
+        usersRefetch();
     }
 
     return (
@@ -30,10 +62,10 @@ const Login = () => {
             <div id='loginContainer'>
                 <h3>Login</h3>
                 <div id='loginCreds'>
-                    <input type='text' placeholder='Username'></input>
-                    <input type='text' placeholder='Password'></input>
+                    <input type='text' value={usernameLogin} onChange={(e) => setUsernameLogin(e.target.value)} placeholder='Username'></input>
+                    <input type='text' value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} placeholder='Password'></input>
                 </div>
-                <Button variant='contained' color='success' style={{gap: '10px', margin: '10px'}}>Login</Button>
+                <Button onClick={() => LogIntoAccount()} variant='contained' color='success' style={{gap: '10px', margin: '10px'}}>Login</Button>
             </div>
 
             <div id='createAccountContainer'>
