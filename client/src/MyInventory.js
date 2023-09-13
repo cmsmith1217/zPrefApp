@@ -79,8 +79,8 @@ const MyInventory = () => {
         reFetchInventory();
     }
 
-const patchItem = async () => {
-    await fetch(`http://localhost:3001/inventory/${editItemId}`, {
+const patchItem = async (idToPatch) => {
+    await fetch(`http://localhost:3001/inventory/${idToPatch}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -91,6 +91,9 @@ const patchItem = async () => {
             "quantity": parseInt(editItemQuantity)
         })
     })
+    setEditItemName();
+    setEditItemDescription();
+    setEditItemQuantity();
     reFetchInventory();
 }
 
@@ -107,7 +110,7 @@ const patchItem = async () => {
                 <li id={itemArg.id}>
                     <p>Item Name: {itemArg.item_name}</p>
                     <p>Quantity: {itemArg.quantity}</p>
-                    <p>{itemArg.description.length > 100 ? `${itemArg.description.substring(0, 100)}...` : itemArg.description}</p>
+                    <p>{itemArg.description.length > 100 ? `Description: ${itemArg.description.substring(0, 100)}...` : `Description: ${itemArg.description}`}</p>
                     <Button as={Link} to={`/inventory/${itemArg.id}`} variant='contained' color='secondary' style={{gap: '10px', margin: '10px'}} size='medium'>Item Details</Button>
                     {whichButton}
                     <IconButton value={itemArg.id} onClick={(e) => deleteItem(e.currentTarget.value)} aria-label='delete' size='small'><DeleteIcon fontSize='inherit'/></IconButton>
@@ -118,9 +121,8 @@ const patchItem = async () => {
             whichButton = <Button value={myInventoryArrayToRender[index].editMode} onClick={() => {
                 myInventoryArrayToRender[index].editMode = false;
                 console.log(itemArg);
-                setEditItemId(itemArg.id);
                 console.log('editItemId set to:', editItemId)
-                patchItem();
+                patchItem(itemArg.id);
                 //setTriggerReRender(Math.random())
             }} variant='contained' color='secondary' style={{gap: '10px', margin: '10px'}} size='small'>Save Item</Button>;
             return(
