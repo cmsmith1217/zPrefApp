@@ -20,17 +20,17 @@ app.get('/inventory', (req, res) => {
             hasQuery = true;
         }
     }
-    console.log(hasQuery)
+    // console.log(hasQuery)
 
     if (hasQuery === true) {
         let queryKey = Object.keys(inventorySearch)[0]
         let queryVal = Object.values(inventorySearch)[0]
 
         if ((queryKey === 'user_id') || (queryKey === 'id') || (queryKey === 'quantity')) {
-            console.log('need to parse')
+            // console.log('need to parse')
             queryVal = parseInt(queryVal);
-            console.log('parsed', queryVal)
-            console.log(typeof(queryVal))
+            // console.log('parsed', queryVal)
+            // console.log(typeof(queryVal))
 
             knex('item')
             .select('*').where(`${queryKey}`, '=', queryVal)
@@ -38,7 +38,7 @@ app.get('/inventory', (req, res) => {
             .catch((err) => res.status(500).json(err))
 
         } else {
-            console.log('no need to parse')
+            // console.log('no need to parse')
             knex('item')
             .select('*').where(`${queryKey}`, 'ilike', `%${queryVal}%`)
             .then((inventoryData) => res.status(200).json(inventoryData))
@@ -63,8 +63,8 @@ app.post('/inventory', (req, res) => {
 
 app.delete('/inventory', (req, res) => {
     let idToDelete = parseInt(req.query.id);
-    console.log(req.query)
-    console.log('idToDelete', idToDelete)
+    // console.log(req.query)
+    // console.log('idToDelete', idToDelete)
     knex('item')
         .where('id', idToDelete)
         .del()
@@ -73,7 +73,7 @@ app.delete('/inventory', (req, res) => {
 
 app.get('/inventory/:id', (req, res) => {
     itemId = req.params.id;
-    console.log(itemId);
+    // console.log(itemId);
     knex('item')
         .select('*').where('id', '=', itemId)
         .then((itemData) => res.status(200).json(itemData))
