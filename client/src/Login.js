@@ -7,6 +7,7 @@ import { useCookies } from 'react-cookie';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import Card from '@mui/material/Card';
 
 const Login = () => {
     const [firstName, setFirstName] = useState('');
@@ -71,29 +72,32 @@ const Login = () => {
     }
 
     return (
-        <Box
-            sx={{
-                m: 1,
-                width: 512,
-                height:512
-            }}
-        >
-            <Paper elevation={3}
-                sx={{
-                    backgroundColor: 'white'
-                }}
-            
-            >
-                <div id='loginContainer'>
+        <>
+            <Paper elevation={3} style={{justifyContent: 'center', alignContent: 'center', textAlign: 'center', backgroundColor: 'pink', maxWidth: '920px', marginLeft: '25%', padding: '4px'}}>
+                <Card sx={{ 
+                    minWidth: 400,
+                    maxWidth: 512,
+                    m: 2,
+                    marginLeft: '20%',
+                    padding: 1,
+                    textAlign: 'left'
+                    }} id='loginContainer'>
                     <h3>Login</h3>
                     <form id='loginCreds'>
-                        <TextField className='inputText' label='username' variant="outlined" type='text' value={usernameLogin} onChange={(e) => setUsernameLogin(e.target.value)} placeholder='Username' size='small' style={{gap: '10px', margin: '10px'}}/>
-                        <TextField className='inputText' label='password' variant="outlined" type='text' value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} placeholder='Password' size='small' style={{gap: '10px', margin: '10px'}}/>
+                        <TextField className='inputText' label='Username' variant="outlined" type='text' value={usernameLogin} onChange={(e) => setUsernameLogin(e.target.value)} placeholder='Username' size='small' style={{gap: '10px', margin: '10px'}}/>
+                        <TextField className='inputText' label='Password' variant="outlined" type='text' value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} placeholder='Password' size='small' style={{gap: '10px', margin: '10px'}}/>
                     </form>
                     <Button type='submit' onClick={() => LogIntoAccount()} variant='contained' color='success' style={{gap: '10px', margin: '10px'}}>Login</Button>
-                </div>
+                </Card>
 
-                <div id='createAccountContainer'>
+                <Card sx={{ 
+                    minWidth: 400,
+                    maxWidth: 512,
+                    m: 2,
+                    marginLeft: '20%',
+                    padding: 1,
+                    textAlign: 'left'
+                    }} id='createAccountContainer'>
                     <h3>Don't have an account? Create one below!</h3>
                     <div id='createAccountInputName'>
                         <TextField className='inputText' label='First Name' variant="outlined" type='text' value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder='First Name' size='small' style={{gap: '10px', margin: '10px'}}/>
@@ -104,9 +108,9 @@ const Login = () => {
                         <TextField className='inputText' label='Password' variant="outlined" type='text' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' size='small' style={{gap: '10px', margin: '10px'}}/>
                     </div>
                     <Button onClick={() => CreateAccount()} variant='contained' color='success' style={{gap: '10px', margin: '10px'}}>Create Account</Button>
-                </div>
+                </Card>
             </Paper>
-        </Box>
+        </>
     )
 }
 

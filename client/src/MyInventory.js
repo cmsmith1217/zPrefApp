@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useCookies, CookiesProvider } from 'react-cookie';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
+import Paper from '@mui/material/Paper';
 
 
 
@@ -119,11 +120,12 @@ const patchItem = async (idToPatch) => {
             return(
                 <Card sx={{ 
                     minWidth: 400,
-                    maxWidth: 760,
+                    maxWidth: 840,
                     m: 2,
-                    padding: 1
+                    padding: 1,
+                    textAlign: 'left'
                     }}  id={itemArg.id}>
-                    <p>Item Name: {itemArg.item_name}</p>
+                    <strong><h3>{itemArg.item_name}</h3></strong>
                     <p>Quantity: {itemArg.quantity}</p>
                     <p>{itemArg.description.length > 100 ? `Description: ${itemArg.description.substring(0, 100)}...` : `Description: ${itemArg.description}`}</p>
                     <Button as={Link} to={`/inventory/${itemArg.id}`} variant='contained' color='secondary' style={{gap: '10px', margin: '10px'}} size='medium'>Item Details</Button>
@@ -143,7 +145,7 @@ const patchItem = async (idToPatch) => {
             return(
                 <Card sx={{ 
                     minWidth: 400,
-                    maxWidth: 760,
+                    maxWidth: 840,
                     m: 2,
                     padding: 1
                     }} id={itemArg.id}>
@@ -169,7 +171,7 @@ const patchItem = async (idToPatch) => {
 
     if(inventoryList.length > 0) {
         return (
-            <>
+            <Paper elevation={3} style={{justifyContent: 'center', alignContent: 'center', textAlign: 'center', backgroundColor: 'pink', maxWidth: '920px', marginLeft: '25%', padding: '4px'}}>
                 {pushRelevantData()}
                 <div id='myInventoryWrapper'>
                     <h2>My Inventory</h2> 
@@ -181,16 +183,17 @@ const patchItem = async (idToPatch) => {
                     <h3>Add Item to Inventory</h3>
                     <Card sx={{ 
                     minWidth: 400,
-                    maxWidth: 760,
+                    maxWidth: 870,
+                    marginLeft: 5,
                     m: 2,
                     padding: 1
                     }} id='inputNSubmitWrapper'>
                         <div id='itemNameNQuantityWrapper'>
-                            <TextField className='inputText' label='Item Name' variant="outlined" size='small' type='text' value={addItemName} onChange={(e) => setAddItemName(e.target.value)} placeholder='Item Name'/>
-                            <TextField className='inputText' label='Quantity' variant="outlined" size='small' type='text' value={addItemQuantity} onChange={(e) => setAddItemQuantity(e.target.value)} placeholder='Quantity'/>
+                            <p><TextField className='inputText' label='Item Name' variant="outlined" size='small' type='text' value={addItemName} style={{gap: '5px', margin: '5px'}} onChange={(e) => setAddItemName(e.target.value)} placeholder='Item Name'/></p>
+                            <p><TextField className='inputText' label='Quantity' variant="outlined" size='small' type='text' value={addItemQuantity} style={{gap: '5px', margin: '5px'}} onChange={(e) => setAddItemQuantity(e.target.value)} placeholder='Quantity'/></p>
                         </div>
                         <div id='itemDescriptionWrapper'>
-                            <TextField className='inputText' label='Description' variant="outlined" multiline rows={2} size='small' style={{width: '90%'}} type='text' value={addItemDescription} onChange={(e) => setAddItemDescription(e.target.value)} placeholder='Description'/>
+                            <p><TextField className='inputText' label='Description' variant="outlined" multiline rows={2} size='small' style={{width: '90%', gap: '5px', margin: '5px'}} type='text' value={addItemDescription} onChange={(e) => setAddItemDescription(e.target.value)} placeholder='Description'/></p>
                         </div>
                         <Button onClick={() => {
                             submitItem();
@@ -201,7 +204,7 @@ const patchItem = async (idToPatch) => {
                              variant='contained' color='secondary' style={{gap: '10px', margin: '10px'}} size='small'>Submit Item</Button>
                     </Card>
                 </div>
-            </>
+            </Paper>
         )
     }
 }

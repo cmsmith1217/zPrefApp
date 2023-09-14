@@ -9,6 +9,7 @@ exports.seed = async function(knex) {
     {first_name: 'Emmett', last_name:'Fitz-Hume', username: 'EmmFitz85', password: 'doctorDoctorDoctor'},
     {first_name: 'Austin', last_name:'Milbarge', username: 'AustBarge70', password: 'drogansDecoderWheel'},
     {first_name: 'Peter', last_name:'Lemongello', username: 'Lemony', password: 'fletch'},
-    {first_name: 'Dusty', last_name:'Bottoms', username: 'BottomDust86', password: 'amigos'}
+    {first_name: 'Dusty', last_name:'Bottoms', username: 'BottomDust86', password: 'amigos'},
+    {first_name: 'Harley', last_name:'Quinn', username: 'harls93', password: 'ives'}
   ]);
 };

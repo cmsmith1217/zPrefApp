@@ -9,7 +9,7 @@ import MyInventory from './MyInventory';
 function App() {
   return (
     <>
-      <h1>some shit on a page</h1>
+      <h1>Inventory Management System</h1>
       <Navbar/>
       <Routes>
         <Route path='/' element={<Login/>}/>

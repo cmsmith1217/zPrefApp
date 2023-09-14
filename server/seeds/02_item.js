@@ -11,6 +11,8 @@ exports.seed = async function(knex) {
     {item_name: "Sombrero", user_id: 4, description: "The proper head-wear to meet the more than famous, El Guapo", quantity: 3},
     {item_name: "Colt Revolver", user_id: 4, description: "Yep, it even comes with real bullets", quantity: 4},
     {item_name: "Singing Bush", user_id: 4, description: "Going to recite the magic chant to this guy to find the way...don't shoot the invisible swordsman though", quantity: 1},
-    {item_name: "Control Room", user_id: 3, description: "Your house is on fire", quantity: 2}
+    {item_name: "Control Room", user_id: 3, description: "Your house is on fire", quantity: 2},
+    {item_name: "Giant Mallet", user_id: 5, description: "Can be used to smash lots of things when put into the hands of the right jester", quantity: 1},
+    {item_name: "Time Bombs", user_id: 5, description: "'Here ya go Batsyyy'", quantity: 7}
   ]);
 };
