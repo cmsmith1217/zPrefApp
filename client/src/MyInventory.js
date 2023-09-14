@@ -147,7 +147,8 @@ const patchItem = async (idToPatch) => {
                     minWidth: 400,
                     maxWidth: 840,
                     m: 2,
-                    padding: 1
+                    padding: 1,
+                    textAlign: 'left'
                     }} id={itemArg.id}>
                     <p><TextField className='inputText' variant="outlined" label='Item Name' type='text' size='small' placeholder={itemArg.item_name} value={editItemName} onChange={(e) => setEditItemName(e.target.value)}/></p>
                     <p><TextField className='inputText' variant="outlined" label='Quantity' type='text' size='small' placeholder={itemArg.quantity} value={editItemQuantity} onChange={(e) => setEditItemQuantity(e.target.value)}/></p>
