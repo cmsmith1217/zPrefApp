@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import { Button, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useCookies, CookiesProvider } from 'react-cookie';
+import TextField from '@mui/material/TextField';
+import Card from '@mui/material/Card';
+
+
 
 const MyInventory = () => {
 
@@ -105,16 +109,27 @@ const patchItem = async (idToPatch) => {
         console.log('editMode:', itemArg.editMode)
         if(itemArg.editMode == false) {
             console.log('editMode false')
-            whichButton = <Button value={myInventoryArrayToRender[index].editMode} onClick={() => {myInventoryArrayToRender[index].editMode = true; console.log('bruh wtf', itemArg); setTriggerReRender(Math.random());}} variant='contained' color='secondary' style={{gap: '10px', margin: '10px'}} size='small'>Edit Item</Button>;
+            whichButton = <Button value={myInventoryArrayToRender[index].editMode} onClick={() => {
+                myInventoryArrayToRender[index].editMode = true;
+                setEditItemDescription(itemArg.description)
+                setEditItemName(itemArg.item_name)
+                setEditItemQuantity(itemArg.quantity)
+                console.log('bruh wtf', itemArg);
+            }} variant='contained' color='secondary' style={{gap: '10px', margin: '10px'}} size='small'>Edit Item</Button>;
             return(
-                <li id={itemArg.id}>
+                <Card sx={{ 
+                    minWidth: 400,
+                    maxWidth: 760,
+                    m: 2,
+                    padding: 1
+                    }}  id={itemArg.id}>
                     <p>Item Name: {itemArg.item_name}</p>
                     <p>Quantity: {itemArg.quantity}</p>
                     <p>{itemArg.description.length > 100 ? `Description: ${itemArg.description.substring(0, 100)}...` : `Description: ${itemArg.description}`}</p>
                     <Button as={Link} to={`/inventory/${itemArg.id}`} variant='contained' color='secondary' style={{gap: '10px', margin: '10px'}} size='medium'>Item Details</Button>
                     {whichButton}
                     <IconButton value={itemArg.id} onClick={(e) => deleteItem(e.currentTarget.value)} aria-label='delete' size='small'><DeleteIcon fontSize='inherit'/></IconButton>
-                </li>
+                </Card>
             )
         } else if(itemArg.editMode == true){
             console.log('editMode true')
@@ -126,14 +141,19 @@ const patchItem = async (idToPatch) => {
                 //setTriggerReRender(Math.random())
             }} variant='contained' color='secondary' style={{gap: '10px', margin: '10px'}} size='small'>Save Item</Button>;
             return(
-                <li id={itemArg.id}>
-                    <p><input type='text' label='Item Name' placeholder={itemArg.item_name} value={editItemName} onChange={(e) => setEditItemName(e.target.value)}/></p>
-                    <p><input type='text' label='Item Name' placeholder={itemArg.quantity} value={editItemQuantity} onChange={(e) => setEditItemQuantity(e.target.value)}/></p>
-                    <p><input type='text' label='Item Name' placeholder={itemArg.description} value={editItemDescription} onChange={(e) => setEditItemDescription(e.target.value)}/></p>
+                <Card sx={{ 
+                    minWidth: 400,
+                    maxWidth: 760,
+                    m: 2,
+                    padding: 1
+                    }} id={itemArg.id}>
+                    <p><TextField className='inputText' variant="outlined" label='Item Name' type='text' size='small' placeholder={itemArg.item_name} value={editItemName} onChange={(e) => setEditItemName(e.target.value)}/></p>
+                    <p><TextField className='inputText' variant="outlined" label='Quantity' type='text' size='small' placeholder={itemArg.quantity} value={editItemQuantity} onChange={(e) => setEditItemQuantity(e.target.value)}/></p>
+                    <p><TextField className='inputText' variant="outlined" label='Description' type='text' multiline rows={2} size='small'  style={{width: '90%'}} placeholder={itemArg.description} value={editItemDescription} onChange={(e) => setEditItemDescription(e.target.value)}/></p>
                     <Button as={Link} to={`/inventory/${itemArg.id}`} variant='contained' color='secondary' style={{gap: '10px', margin: '10px'}} size='medium'>Item Details</Button>
                     {whichButton}
                     <IconButton value={itemArg.id} onClick={(e) => deleteItem(e.currentTarget.value)} aria-label='delete' size='small'><DeleteIcon fontSize='inherit'/></IconButton>
-                </li>
+                </Card>
             )
         }
     }
@@ -159,14 +179,27 @@ const patchItem = async (idToPatch) => {
                 </div>
                 <div id='addItemWrapper'>
                     <h3>Add Item to Inventory</h3>
-                    <div id='itemNameNQuantityWrapper'>
-                        <input type='text' value={addItemName} onChange={(e) => setAddItemName(e.target.value)} placeholder='Item Name'></input>
-                        <input type='text' value={addItemQuantity} onChange={(e) => setAddItemQuantity(e.target.value)} placeholder='Quantity'></input>
-                    </div>
-                    <div id='itemDescriptionWrapper'>
-                        <input type='text' value={addItemDescription} onChange={(e) => setAddItemDescription(e.target.value)} placeholder='Description'></input>
-                    </div>
-                    <Button onClick={() => submitItem()} variant='contained' color='secondary' style={{gap: '10px', margin: '10px'}} size='small'>Submit Item</Button>
+                    <Card sx={{ 
+                    minWidth: 400,
+                    maxWidth: 760,
+                    m: 2,
+                    padding: 1
+                    }} id='inputNSubmitWrapper'>
+                        <div id='itemNameNQuantityWrapper'>
+                            <TextField className='inputText' label='Item Name' variant="outlined" size='small' type='text' value={addItemName} onChange={(e) => setAddItemName(e.target.value)} placeholder='Item Name'/>
+                            <TextField className='inputText' label='Quantity' variant="outlined" size='small' type='text' value={addItemQuantity} onChange={(e) => setAddItemQuantity(e.target.value)} placeholder='Quantity'/>
+                        </div>
+                        <div id='itemDescriptionWrapper'>
+                            <TextField className='inputText' label='Description' variant="outlined" multiline rows={2} size='small' style={{width: '90%'}} type='text' value={addItemDescription} onChange={(e) => setAddItemDescription(e.target.value)} placeholder='Description'/>
+                        </div>
+                        <Button onClick={() => {
+                            submitItem();
+                            setAddItemName('');
+                            setAddItemDescription('');
+                            setAddItemQuantity('');
+                        }}
+                             variant='contained' color='secondary' style={{gap: '10px', margin: '10px'}} size='small'>Submit Item</Button>
+                    </Card>
                 </div>
             </>
         )

@@ -1,3 +1,5 @@
+import './Navbar.css';
+
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, IconButton } from '@mui/material';
